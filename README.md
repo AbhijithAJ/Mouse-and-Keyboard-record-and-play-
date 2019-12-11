@@ -1,4 +1,4 @@
-# Mouse-and-Keyboard-record-and-play-
+# Repeate mouse and keyboard operations 
 record mouse clicks and keyboard strikes and repeat them  
 
 ReadMe:
