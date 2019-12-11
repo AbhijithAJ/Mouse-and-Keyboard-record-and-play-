@@ -1,4 +1,4 @@
-# Repeate mouse and keyboard operations 
+# Repeat mouse and keyboard operations 
 record mouse clicks and keyboard strikes and repeat them  
 
 ReadMe:
