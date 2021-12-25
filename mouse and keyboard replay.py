@@ -70,42 +70,22 @@ def get_inputs():
         time.sleep(1)
 
 def mouse_ctrl(num, action):
-        try:
-            global double_clk
-            #print('m----',num,action)
-            if action[:5]=='L_CLK':
-                next_action = lst[num+1] 
-                if action == next_action and double_clk==0: #double click chk           
-                    double_clk =1
-                elif double_clk ==1:
-                        #double click
-                    x,y = action[6:].split(' ')
-                    mouse.position = (int(x),int(y))
-                    mouse.click(Button.left, 2)
-                    mouse.release(Button.left)              
-                    double_clk =0
-                else:
-                    #click          
-                    x,y = action[6:].split(' ')
-                    mouse.position = (int(x),int(y))
-                    mouse.click(Button.left)
-                    mouse.release(Button.left)
-
-            elif action[0:5]=='R_CLK':
-                x,y = action[6:].split(' ')
-                mouse.position = (int(x),int(y))
-                mouse.click(Button.right)
-                mouse.release(Button.right)        
-                pass
-        except IndexError:
-            x,y = action[6:].split(' ')
-            mouse.position = (int(x),int(y))
-            mouse.click(Button.left)
-            mouse.release(Button.left)          
-            pass
-        except:
-                print('Unknown mouse input',action)
-                time.sleep(1)
+    def _mouse(x, y, L_R='L_CLK', clicks=1):
+        mouse.position = (int(x),int(y))
+        if L_R == 'L_CLK': mouse.click(Button.left, clicks); mouse.release(Button.left)
+        else: mouse.click(Button.right, clicks);mouse.release(Button.right)
+    try:
+        global double_clk
+        L_R = action[:5] # get left or right click
+        x,y = action[6:].split(' ') # get x and y possitions
+        next_action = keys_clicks[num+1] # get the next click 
+        if action == next_action and double_clk==0: #double click chk           
+            double_clk = 1
+        else:
+            if double_clk: _mouse(x, y, L_R=L_R, clicks=2)
+            else: _mouse(x,y,L_R=L_R,clicks=1)
+    except IndexError: _mouse(x,y,L_R=L_R,clicks=1) # if only one input is available in the recordings.txt file 
+    except: clrprint('Unknown mouse input', action); time.sleep(1)
 
 def keyboard_ctrl(num, action):    
     try:
